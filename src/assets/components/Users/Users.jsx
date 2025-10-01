@@ -1,16 +1,19 @@
 import React from 'react';
-import { useLoaderData } from 'react-router';
+import { useLoaderData } from 'react-router-dom';
+import User from '../User/User';
 
-const User = () => {
+const Users = () => {
 
-    const user = useLoaderData()
-    console.log(user)
+    const users = useLoaderData()
 
     return (
         <div>
             <h3>This is from user</h3>
+            {
+                users.map(user=><User user={user}></User>)
+            }
         </div>
     );
 };
 
-export default User
+export default Users

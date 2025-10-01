@@ -9,11 +9,10 @@ import Home from "./assets/components/Home/Home.jsx";
 import Settings from "./assets/components/Settings/Settings.jsx";
 import Laptops from "./assets/components/Laptops/Laptops.jsx";
 import Users from "./assets/components/Users/users.jsx";
-import Users2 from "./assets/components/Users2/Users2.jsx";
+import Details from "./assets/components/Details/Details.jsx";
+import Posts from "./assets/components/Posts/Posts.jsx";
+import PostDetail from "./assets/components/PostDetail/PostDetail.jsx";
 
-const dataPromise = fetch("https://jsonplaceholder.typicode.com/users").then(
-  (res) => res.json()
-);
 
 const router = createBrowserRouter([
   {
@@ -29,12 +28,28 @@ const router = createBrowserRouter([
         Component: Users,
       },
       {
-        path: "users2",
-        element: <Suspense fallback={<span>Loading...</span>}>
-          <Users2 dataPromise={dataPromise}></Users2>
-        </Suspense>,
+        path: "users/:usersId",
+        loader: ({ params }) =>
+          fetch(`https://jsonplaceholder.typicode.com/users/${params.usersId}`),
+        Component: Details,
       },
+      {
+        path: "posts",
+        loader: () => fetch("https://jsonplaceholder.typicode.com/posts"),
+        Component: Posts,
+      },
+      {
+        path: "posts/:postId",
+        loader: ({params}) =>
+          fetch(`https://jsonplaceholder.typicode.com/posts/${params.postId}`),
+        Component: PostDetail,
+      },
+      
     ],
+  },
+  {
+    path: '*',
+    element: <h3>Not Found: 404 status</h3>
   },
 ]);
 
